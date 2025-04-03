@@ -17,7 +17,6 @@ npx -y grok2-image-mcp-server
         "amap-maps": {
             "command": "npx",
             "args": [
-                "-y",
                 "grok2-image-mcp-server"
             ],
             "env": {
