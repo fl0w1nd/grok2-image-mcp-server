@@ -14,7 +14,7 @@ npx -y grok2-image-mcp-server
 ```json
 {
     "mcpServers": {
-        "amap-maps": {
+        "grok2_image": {
             "command": "npx",
             "args": [
                 "grok2-image-mcp-server"
