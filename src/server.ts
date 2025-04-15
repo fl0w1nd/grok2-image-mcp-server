@@ -4,12 +4,12 @@ import { z } from "zod";
 export function createServer(): McpServer {
   const server = new McpServer({
     name: "Grok2 Image MCP Server",
-    version: "0.1.1",
+    version: "0.1.3",
   });
 
   server.tool(
     "generate_image",
-    "Generate an image based on a text prompt using the Grok-2 image model, and return the image URL to the user with markdown image format.",
+    "Generate an image based on a text prompt using the Grok-2 image model, ensure return the image URL to the user with markdown image format.",
     {
       prompt: z.string().describe("描述要生成的图像内容"),
     },
@@ -65,6 +65,7 @@ export function createServer(): McpServer {
                 text: `图像生成失败: ${JSON.stringify(data, null, 2)}`
               }
             ],
+            isError: true
           };
         }
 
@@ -76,9 +77,10 @@ export function createServer(): McpServer {
             content: [
               {
                 type: "text",
-                text: `图像已成功生成！图像URL: ${imageUrl}`
+                text: `图像已成功生成！\n图像URL: ![](${imageUrl})`
               }
             ],
+            isError: false
           };
         } else {
           return {
@@ -88,6 +90,7 @@ export function createServer(): McpServer {
                 text: `图像生成失败: 服务器返回了无效的数据结构`
               }
             ],
+            isError: true
           };
         }
       } catch (error: unknown) {
@@ -106,6 +109,7 @@ export function createServer(): McpServer {
               text: `图像生成失败: ${errorMessage}`
             }
           ],
+          isError: true
         };
       }
     },
