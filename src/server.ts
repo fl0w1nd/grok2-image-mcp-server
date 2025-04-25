@@ -4,7 +4,7 @@ import { z } from "zod";
 export function createServer(): McpServer {
   const server = new McpServer({
     name: "Grok2 Image MCP Server",
-    version: "0.1.3",
+    version: "0.1.4",
   });
 
   server.tool(
@@ -71,7 +71,22 @@ export function createServer(): McpServer {
 
         // 检查响应并提取图像 URL
         if (data && data.data && data.data.length > 0 && data.data[0].url) {
-          const imageUrl = data.data[0].url;
+          let imageUrl = data.data[0].url;
+          
+          // 从环境变量获取图片代理域名，如果设置了则替换原始域名
+          const proxyDomain = process.env.IMAGE_PROXY_DOMAIN;
+          if (proxyDomain) {
+            // 替换图片URL中的域名部分
+            if (imageUrl.startsWith('https://imgen.x.ai')) {
+              // 如果用户配置的代理域名已包含https://前缀，则直接替换整个域名部分
+              if (proxyDomain.startsWith('https://')) {
+                imageUrl = imageUrl.replace('https://imgen.x.ai', proxyDomain);
+              } else {
+                // 否则，保留https://前缀，只替换域名部分
+                imageUrl = imageUrl.replace('imgen.x.ai', proxyDomain);
+              }
+            }
+          }
           
           return {
             content: [
