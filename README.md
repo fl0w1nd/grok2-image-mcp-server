@@ -35,7 +35,7 @@ npx -y grok2-image-mcp-server
 示例：
 
 ```bash
-XAIAPI_BASE_URL=https://api.proxy.com/xai/v1
+XAIAPI_BASE_URL=https://api-proxy.me/xai/v1  //某个公开代理，不保证可用性
 ```
 
 `IMAGE_PROXY_DOMAIN`（可选） -> 图片代理域名，若不填则返回默认的图片接口域名 `imgen.x.ai`，遇到无法访问的情况可使用第三方代理
