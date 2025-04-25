@@ -20,13 +20,19 @@ npx -y grok2-image-mcp-server
                 "grok2-image-mcp-server"
             ],
             "env": {
-                "XAIAPI_KEY": "xAI Key",
-                "XAIAPI_BASE_URL": "可选,例如：https://api.proxy.com/xai/v1"
+                "XAIAPI_KEY": "xAI Key"
             }
         }
     }
 }
 ```
+#### 环境变量
+
+`XAIAPI_KEY` -> xAI Key
+
+`XAIAPI_BASE_URL`（可选） -> 请求接口代理，若不填则默认使用 `https://api.x.ai/v1`，遇到无法访问的情况可使用第三方代理,末尾以`v1`结束
+
+
 
 ## 许可证
 
