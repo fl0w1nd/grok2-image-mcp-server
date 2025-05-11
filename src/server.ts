@@ -1,10 +1,11 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import { ProxyAgent } from "undici";
 
 export function createServer(): McpServer {
   const server = new McpServer({
     name: "Grok2 Image MCP Server",
-    version: "0.1.4",
+    version: "0.1.5",
   });
 
   server.tool(
@@ -33,8 +34,8 @@ export function createServer(): McpServer {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 30000); // 30秒超时
         
-        // 使用 fetch API 替代 axios 发送请求
-        const response = await fetch(endpoint, {
+        // 设置请求选项
+        const options = {
           method: "POST",
           headers: {
             "Authorization": `Bearer ${apiKey}`,
@@ -44,8 +45,20 @@ export function createServer(): McpServer {
             model: "grok-2-image",
             prompt: prompt,
           }),
-          signal: controller.signal, // 添加信号控制器
-        });
+          signal: controller.signal, 
+        };
+        
+        // 检查是否配置了网络代理
+        const proxy = process.env.HTTP_PROXY;
+        if (proxy) {
+          // 创建代理客户端
+          const proxyAgent = new ProxyAgent({ uri: proxy });
+          // @ts-ignore 忽略类型错误
+          options.dispatcher = proxyAgent;
+        }
+        
+        // 发送请求
+        const response = await fetch(endpoint, options);
         
         // 清除超时计时器
         clearTimeout(timeoutId);

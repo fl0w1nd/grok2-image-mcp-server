@@ -46,6 +46,16 @@ XAIAPI_BASE_URL=https://api-proxy.me/xai/v1  //某个公开代理，不保证可
 IMAGE_PROXY_DOMAIN=https://image.proxy.workers.dev
 ```
 
+`HTTP_PROXY`（可选） -> 网络代理服务器地址，支持 HTTP、HTTPS 协议，可用于解决网络访问问题
+
+示例：
+
+```bash
+HTTP_PROXY=http://127.0.0.1:7890
+
+HTTP_PROXY=https://user:pass@proxy.example.com:8080
+```
+
 ### 使用 cloudflare workers 代理图片 URL
 
 遇到图片无法访问的情况，可以考虑使用 cloudflare workers 代理图片 URL，复制以下代码到 cloudflare workers 中，并部署，随后绑定自定义域名，并在环境变量中配置 `IMAGE_PROXY_DOMAIN` 为自定义域名，例如 `https://image.proxy.workers.dev`
